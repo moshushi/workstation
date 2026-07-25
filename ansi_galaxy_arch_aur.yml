@@ -1,0 +1,39 @@
+---
+- name: Install collection kewlfft.aur from Ansible Galaxy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Download and install kewlfft.aur
+      ansible.builtin.command:
+        cmd: ansible-galaxy collection install kewlfft.aur
+      become: false
+
+    - name: Create aur_builder user
+      ansible.builtin.user:
+        name: "{{ aur_user }}"
+        shell: /bin/bash
+        create_home: true
+        state: present
+
+    - name: Configure passwordless sudo for pacman
+      ansible.builtin.copy:
+        content: "{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        dest: "/etc/sudoers.d/10-{{ aur_user }}"
+        mode: '0440'
+        validate: /usr/bin/visudo -cf %s
+
+    - name: Install base-devel development tools
+      community.general.pacman:
+        name: base-devel
+        state: present
+
+    - name: Install package yay
+      kewlfft.aur.aur:
+        name: yay
+        state: present
+        use: makepkg
+      become: true
+      become_user: "{{ aur_user }}"

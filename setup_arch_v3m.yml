@@ -1,0 +1,12 @@
+---
+- name: Install v3m
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Install w3m
+      community.general.pacman:
+        name: w3m
+        state: present
+        update_cache: false

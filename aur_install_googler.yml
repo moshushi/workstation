@@ -1,0 +1,13 @@
+---
+- name: Install googler from AUR
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: install googler from AUR
+      kewlfft.aur.aur:
+        name: googler
+        use: yay
+      become: true
+      become_user: aur_builder
+
