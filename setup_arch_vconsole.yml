@@ -1,0 +1,28 @@
+---
+- name: Configure virtual console
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Install Terminus font package
+      community.general.pacman:
+        name: terminus-font
+        state: present
+        update_cache: false
+
+    - name: Update vconsole.conf configuration
+      ansible.builtin.copy:
+        dest: /etc/vconsole.conf
+        content: |
+          KEYMAP=ru
+          FONT=ter-v24b
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Apply settings to current session
+      ansible.builtin.shell: |
+        loadkey ru
+        setfont ter-v24b
+      changed_when: false

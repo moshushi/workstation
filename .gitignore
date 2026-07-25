@@ -1,0 +1,43 @@
+# Ansible core
+*.retry
+ansible.log
+.ansible_cache/
+
+# Secrets
+.vault_pass
+*vault*password*
+*.env
+*.key
+*.pem
+
+# Python-generated files
+__pycache__/
+*.pyc
+*.pyo
+build/
+dist/
+wheels/
+*.egg-info
+.idea/
+.vscode/
+.DS_Store
+.python-version
+
+# Virtual environments
+.venv
+.envrc
+ansible.cfg
+
+# Role dependecies
+roles/external/
+roles/galaxy/
+.galaxy/
+ansible_collection/
+
+# Test environment
+hosts.local
+local_test
+.molecule/
+
+# localhost
+host_vars/localhost.yml

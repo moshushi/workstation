@@ -1,0 +1,23 @@
+---
+- name: Setup SSH key generation tools on Arch Linux
+  hosts: localhost
+  connection: local
+  become: true
+  vars:
+    ssh_user: "{{ pc_user }}"
+
+  tasks:
+    - name: Install OpenSSH package via pacman
+      community.general.pacman:
+        name: openssh
+        state: present
+        update_cache: true
+
+    - name: Generate SSH key pair for the user
+      ansible.builtin.user:
+        name: "{{ pc_user }}"
+        generate_ssh_key: true
+        ssh_key_bits: 4096
+        ssh_key_type: rsa
+        ssh_key_file: ".ssh/id_rsa"
+      become: true
