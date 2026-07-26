@@ -1,0 +1,14 @@
+---
+- name: Install qutebrowser
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+
+    - name: Install qutebrowser from official repositories
+      community.general.pacman:
+        name:
+          - qutebrowser
+          - qt6-webengine
+        state: present
+        update_cache: yes

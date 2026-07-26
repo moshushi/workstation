@@ -1,0 +1,21 @@
+---
+- name: Install Google Chrome from Aure
+  hosts: localhost
+  connection: local
+  become: false
+  tasks:
+
+    - name: Ensure yay AUR helper is installed
+      community.general.pacman:
+        name: yay
+        state: present
+      become: true
+
+    - name: Install AUR packages using yay
+      kewlfft.aur.aur:
+        name:
+          - google-chrome
+        use: yay
+        state: present
+      become: true
+      become_user: aur_builder
