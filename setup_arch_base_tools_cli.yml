@@ -1,0 +1,18 @@
+---
+- name: Установка в Arch Linux (fzf, bat, eza)
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Установка базовых утилит и пакетов (fzf, bat, eza)
+      community.general.pacman:
+        name:
+          - fzf
+          - bat
+          - eza
+          - git
+          - ttf-jetbrains-mono-nerd
+          - less
+        state: present
+        update_cache: false

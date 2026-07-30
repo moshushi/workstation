@@ -1,0 +1,14 @@
+---
+- name: Install vulkan
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Install w3m
+      community.general.pacman:
+        name: 
+          - vulkan-tools
+          - mesa-utils
+        state: present
+        update_cache: false

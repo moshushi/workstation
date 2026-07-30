@@ -1,0 +1,27 @@
+---
+- name: Установка TgWsProxy из AUR и запуск службы
+  hosts: all
+  become: true
+  vars:
+    # Укажите ваши параметры
+    proxy_port: "8888"
+    # openssl rand -hex 16
+    proxy_secret: "3075abe65830f0325116bb0416cadf9f"
+
+  tasks:
+    - name: Сборка и установка пакета tg-ws-proxy-bin из AUR
+      become: true
+      become_user: aur_builder
+      kewlfft.aur.aur:
+        name: tg-ws-proxy-bin
+        use: makepkg
+        state: present
+
+    - name: Включение автозапуска и старт службы systemd
+      ansible.builtin.systemd:
+        name: "tg-ws-proxy@{{ proxy_port }}:{{ proxy_secret }}"
+        enabled: true
+        state: started
+        daemon_reload: true
+
+    # systemctl list-units "tg-ws-proxy@*"
